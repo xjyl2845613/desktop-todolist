@@ -10,4 +10,7 @@ contextBridge.exposeInMainWorld('api', {
   // Auto-launch
   getAutoLaunch:  ()      => ipcRenderer.invoke('get-autolaunch'),
   setAutoLaunch:  (v)     => ipcRenderer.send('set-autolaunch', v),
+  // File operations
+  saveData:       (data)   => ipcRenderer.invoke('save-data', data),
+  loadData:       ()       => ipcRenderer.invoke('load-data'),
 });

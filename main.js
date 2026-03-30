@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, screen } = require('electron');
 const path = require('path');
+const fs = require('fs');
 const AutoLaunch = require('auto-launch');
 
 let win = null;
@@ -131,6 +132,49 @@ ipcMain.on('set-autolaunch', async (_, enable) => {
   try {
     enable ? await autoLauncher.enable() : await autoLauncher.disable();
   } catch (e) { console.error(e); }
+});
+
+// File operations for data persistence
+const dataDir = path.join(app.getPath('userData'), 'data');
+const todosFile = path.join(dataDir, 'todos.json');
+const archiveFile = path.join(dataDir, 'archive.json');
+
+// Ensure data directory exists
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
+// Save data to files
+ipcMain.handle('save-data', async (_, data) => {
+  try {
+    fs.writeFileSync(todosFile, JSON.stringify(data.todos, null, 2));
+    fs.writeFileSync(archiveFile, JSON.stringify(data.archivedTodos, null, 2));
+    return true;
+  } catch (e) {
+    console.error('Error saving data:', e);
+    return false;
+  }
+});
+
+// Load data from files
+ipcMain.handle('load-data', async () => {
+  try {
+    let todos = [];
+    let archivedTodos = [];
+    
+    if (fs.existsSync(todosFile)) {
+      todos = JSON.parse(fs.readFileSync(todosFile, 'utf8'));
+    }
+    
+    if (fs.existsSync(archiveFile)) {
+      archivedTodos = JSON.parse(fs.readFileSync(archiveFile, 'utf8'));
+    }
+    
+    return { todos, archivedTodos };
+  } catch (e) {
+    console.error('Error loading data:', e);
+    return { todos: [], archivedTodos: [] };
+  }
 });
 
 // ── Boot ──

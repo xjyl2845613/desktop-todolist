@@ -296,10 +296,37 @@ const wBadge  = document.getElementById('wb');
 const sBadge  = document.getElementById('sb');
 
 // ── State ─────────────────────────────────────────────────────────
-// todos: [{ text, done, cat }]  cat = 'work' | 'self'
-let todos = JSON.parse(localStorage.getItem('ft2') || '[]');
+// todos: [{ text, done, cat, createdAt }]  cat = 'work' | 'self'
+let todos = [];
+// archived todos: [{ text, done, cat, createdAt, archivedAt }]
+let archivedTodos = [];
 let tab   = 'work';   // active tab
 let open  = false;
+
+// Load data from files on startup
+async function loadData() {
+  if (window.api) {
+    try {
+      const data = await window.api.loadData();
+      todos = data.todos || [];
+      archivedTodos = data.archivedTodos || [];
+      render();
+    } catch (e) {
+      console.error('Error loading data:', e);
+    }
+  }
+}
+
+// Save data to files
+async function saveData() {
+  if (window.api) {
+    try {
+      await window.api.saveData({ todos, archivedTodos });
+    } catch (e) {
+      console.error('Error saving data:', e);
+    }
+  }
+}
 
 // ── Mouse passthrough ─────────────────────────────────────────────
 function enterUI() { if (window.api) window.api.setIgnoreMouse(false); }
@@ -447,12 +474,12 @@ function render() {
 }
 
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function save(){ localStorage.setItem('ft2', JSON.stringify(todos)); }
+function save(){ saveData(); }
 
 function addTodo() {
   const text = inp.value.trim();
   if (!text) return;
-  todos.unshift({ text, done:false, cat:tab });
+  todos.unshift({ text, done:false, cat:tab, createdAt: new Date().toISOString() });
   save(); render();
   inp.value='';
   badge.classList.add('pop');
@@ -462,11 +489,25 @@ function addTodo() {
 addBtn.addEventListener('click', addTodo);
 inp.addEventListener('keydown', e => e.key==='Enter' && addTodo());
 clrBtn.addEventListener('click', ()=>{
-  todos = todos.filter(t => !(t.done && t.cat===tab));
-  save(); render();
+  const now = new Date().toISOString();
+  const doneTodos = todos.filter(t => t.done && t.cat===tab);
+  if (doneTodos.length > 0) {
+    // 添加到归档数组
+    const archived = doneTodos.map(t => ({
+      ...t,
+      archivedAt: now
+    }));
+    archivedTodos = [...archivedTodos, ...archived];
+    // 保存归档数据
+    localStorage.setItem('ft2_archive', JSON.stringify(archivedTodos));
+    // 从当前任务中移除
+    todos = todos.filter(t => !(t.done && t.cat===tab));
+    save(); render();
+  }
 });
 
-render();
+// Load data and render on startup
+loadData();
 </script>
 </body>
 </html>
