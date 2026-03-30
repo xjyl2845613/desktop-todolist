@@ -213,6 +213,135 @@ html, body {
 }
 .ft-btn:hover { color:#a78bfa; }
 .ft-btn.active { color:#a78bfa; }
+
+/* History Panel */
+#history-panel {
+  position:absolute; top:74px; right:12px;
+  width:324px; max-height:510px;
+  background:var(--bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid var(--bdr); border-radius:var(--r);
+  box-shadow:0 24px 64px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.04);
+  display:flex; flex-direction:column; overflow:hidden;
+  transform-origin:top right;
+  transition:transform .3s cubic-bezier(.34,1.1,.64,1), opacity .22s ease;
+  z-index:100;
+}
+#history-panel.hide { transform:scale(.84) translateY(-8px); opacity:0; pointer-events:none; }
+
+/* Filter Row */
+.filter-row {
+  padding:8px 11px; border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex; gap:6px; flex-shrink:0;
+  flex-wrap:wrap;
+}
+.filter-input {
+  flex:1; min-width:100px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1); border-radius:9px;
+  padding:7px 10px; color:var(--text); font-size:13px;
+  outline:none; transition:border-color .2s, background .2s; font-family:inherit;
+}
+.filter-input::placeholder { color:rgba(255,255,255,.2); }
+.filter-input:focus { border-color:rgba(124,110,247,.55); background:rgba(124,110,247,.07); }
+.filter-select {
+  flex:1; min-width:100px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1); border-radius:9px;
+  padding:7px 10px; color:var(--text); font-size:13px;
+  outline:none; transition:border-color .2s, background .2s; font-family:inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='rgba(255,255,255,0.5)'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+.filter-select:focus { border-color:rgba(124,110,247,.55); background-color:rgba(124,110,247,.07); }
+
+/* Custom select dropdown styles */
+.filter-select option {
+  background: var(--bg);
+  color: var(--text);
+  padding: 8px;
+  border: none;
+}
+
+.filter-select option:hover {
+  background: rgba(124,110,247,.2);
+}
+
+/* Date input styles */
+.filter-input[type="date"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='rgba(255,255,255,0.5)'%3E%3Cpath d='M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zm0-12H5V5h14v2zm-7 4h5v2h-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+.filter-input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+}
+
+.filter-input[type="date"]::-webkit-datetime-edit-text {
+  color: var(--text);
+}
+
+.filter-input[type="date"]::-webkit-datetime-edit-month-field,
+.filter-input[type="date"]::-webkit-datetime-edit-day-field,
+.filter-input[type="date"]::-webkit-datetime-edit-year-field {
+  color: var(--text);
+}
+.filter-btn {
+  width:60px; height:31px; border-radius:8px; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .15s, box-shadow .2s; flex-shrink:0;
+  background:linear-gradient(145deg,var(--acc),var(--acc2));
+  color:#fff; font-size:12px; font-weight:600;
+}
+.filter-btn:hover { transform:scale(1.05); }
+
+/* History Item */
+.history-item {
+  display:flex; align-items:center; padding:7px 11px; gap:9px;
+  transition:background .15s;
+  animation:fadeIn .22s cubic-bezier(.34,1.2,.64,1);
+}
+.history-item:hover { background:rgba(255,255,255,.04); }
+.history-item .cat-dot {
+  width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-right:-2px;
+}
+.history-item .cat-dot.work { background:var(--work); box-shadow:0 0 4px rgba(59,158,255,.6); }
+.history-item .cat-dot.self { background:var(--self); box-shadow:0 0 4px rgba(249,115,22,.6); }
+.history-item .txt {
+  flex:1; font-size:13px; color:var(--text); line-height:1.4; word-break:break-all;
+}
+.history-item .time {
+  font-size:10px; color:rgba(255,255,255,.3); font-family:'SF Mono',monospace;
+  flex-shrink:0;
+}
+
+/* Pagination */
+.pagination {
+  padding:7px 11px; border-top:1px solid rgba(255,255,255,.06);
+  display:flex; align-items:center; justify-content:center; gap:10px; flex-shrink:0;
+}
+.page-btn {
+  font-size:10px; color:rgba(168,139,250,.5);
+  background:none; border:none; cursor:pointer;
+  font-family:'SF Mono',monospace; transition:color .15s; padding:0 8px;
+}
+.page-btn:hover:not(:disabled) { color:#a78bfa; }
+.page-btn:disabled { opacity:.3; cursor:not-allowed; }
+.page-info {
+  font-size:10px; color:rgba(255,255,255,.3); font-family:'SF Mono',monospace;
+}
 </style>
 </head>
 <body>
@@ -266,11 +395,56 @@ html, body {
     <div class="ft">
       <span class="ft-info" id="ft-info">0 项待办</span>
       <div class="ft-btns">
+        <button class="ft-btn" id="history-btn">历史查询</button>
         <button class="ft-btn" id="auto-btn">开机自启: 检测中...</button>
         <button class="ft-btn" id="clr-btn">清除已完成</button>
       </div>
     </div>
 
+  </div>
+
+  <!-- History Panel -->
+  <div id="history-panel" class="hide">
+    <!-- Header -->
+    <div class="hd">
+      <div class="hd-label">HISTORY</div>
+      <div class="hd-count" id="history-count">历史记录</div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <input type="date" class="filter-input" id="start-date" placeholder="开始日期">
+      <input type="date" class="filter-input" id="end-date" placeholder="结束日期">
+      <select class="filter-select" id="history-category">
+        <option value="all">全部</option>
+        <option value="work">工作</option>
+        <option value="self">个人</option>
+      </select>
+      <button class="filter-btn" id="search-btn">搜索</button>
+    </div>
+
+    <!-- History List -->
+    <div class="list" id="history-list">
+      <div class="empty show" id="history-empty">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="rgba(255,255,255,.6)">
+          <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+        </svg>
+        <span id="history-empty-txt">暂无历史记录</span>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="pagination">
+      <button class="page-btn" id="prev-btn" disabled>上一页</button>
+      <span class="page-info" id="page-info">第 1 页，共 1 页</span>
+      <button class="page-btn" id="next-btn" disabled>下一页</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="ft">
+      <button class="ft-btn" id="export-btn">导出</button>
+      <button class="ft-btn" id="close-history-btn">关闭</button>
+    </div>
   </div>
 </div>
 
@@ -294,6 +468,29 @@ const tabWork = document.getElementById('tab-work');
 const tabSelf = document.getElementById('tab-self');
 const wBadge  = document.getElementById('wb');
 const sBadge  = document.getElementById('sb');
+
+// History panel elements
+const historyPanel = document.getElementById('history-panel');
+const historyBtn = document.getElementById('history-btn');
+const closeHistoryBtn = document.getElementById('close-history-btn');
+const startDate = document.getElementById('start-date');
+const endDate = document.getElementById('end-date');
+const historyCategory = document.getElementById('history-category');
+const searchBtn = document.getElementById('search-btn');
+const historyList = document.getElementById('history-list');
+const historyEmpty = document.getElementById('history-empty');
+const historyEmptyTxt = document.getElementById('history-empty-txt');
+const historyCount = document.getElementById('history-count');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const pageInfo = document.getElementById('page-info');
+const exportBtn = document.getElementById('export-btn');
+
+// History state
+let historyData = [];
+let filteredHistory = [];
+let currentPage = 1;
+const pageSize = 10;
 
 // ── State ─────────────────────────────────────────────────────────
 // todos: [{ text, done, cat, createdAt }]  cat = 'work' | 'self'
@@ -335,6 +532,8 @@ fab.addEventListener('mouseenter', enterUI);
 fab.addEventListener('mouseleave', leaveUI);
 panel.addEventListener('mouseenter', enterUI);
 panel.addEventListener('mouseleave', leaveUI);
+historyPanel.addEventListener('mouseenter', enterUI);
+historyPanel.addEventListener('mouseleave', leaveUI);
 
 // ── Drag ─────────────────────────────────────────────────────────
 let dragging=false, downT=0, downSX=0, downSY=0, winX=0, winY=0;
@@ -505,6 +704,150 @@ clrBtn.addEventListener('click', ()=>{
     save(); render();
   }
 });
+
+// ── History Panel ─────────────────────────────────────────────────
+
+// Open history panel
+function openHistoryPanel() {
+  historyPanel.classList.remove('hide');
+  panel.classList.add('hide');
+  open = false;
+  // Load history data
+  historyData = [...archivedTodos];
+  // Set default date range (last 7 days)
+  const today = new Date();
+  const lastWeek = new Date();
+  lastWeek.setDate(today.getDate() - 7);
+  startDate.value = lastWeek.toISOString().split('T')[0];
+  endDate.value = today.toISOString().split('T')[0];
+  // Initial search
+  searchHistory();
+}
+
+// Close history panel
+function closeHistoryPanel() {
+  historyPanel.classList.add('hide');
+  panel.classList.remove('hide');
+  open = true;
+}
+
+// Search and filter history
+function searchHistory() {
+  const start = startDate.value;
+  const end = endDate.value;
+  const category = historyCategory.value;
+  
+  filteredHistory = historyData.filter(item => {
+    // Filter by date
+    const archivedDate = new Date(item.archivedAt).toISOString().split('T')[0];
+    const dateMatch = (!start || archivedDate >= start) && (!end || archivedDate <= end);
+    // Filter by category
+    const categoryMatch = category === 'all' || item.cat === category;
+    return dateMatch && categoryMatch;
+  });
+  
+  // Sort by archived date (newest first)
+  filteredHistory.sort((a, b) => new Date(b.archivedAt) - new Date(a.archivedAt));
+  
+  // Reset to first page
+  currentPage = 1;
+  // Render history
+  renderHistory();
+}
+
+// Render history with pagination
+function renderHistory() {
+  // Clear existing items
+  [...historyList.querySelectorAll('.history-item')].forEach(el => el.remove());
+  
+  // Calculate pagination
+  const totalItems = filteredHistory.length;
+  const totalPages = Math.ceil(totalItems / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const pageItems = filteredHistory.slice(startIndex, endIndex);
+  
+  // Update count
+  historyCount.textContent = `历史记录 (${totalItems})`;
+  
+  // Update pagination info
+  pageInfo.textContent = `第 ${currentPage} 页，共 ${totalPages} 页`;
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = currentPage === totalPages;
+  
+  // Show empty state if no items
+  historyEmpty.classList.toggle('show', totalItems === 0);
+  
+  // Render items
+  pageItems.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'history-item';
+    const archivedDate = new Date(item.archivedAt).toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    el.innerHTML = 
+      `<div class="cat-dot ${item.cat}"></div>
+       <span class="txt">${esc(item.text)}</span>
+       <span class="time">${archivedDate}</span>`;
+    historyList.appendChild(el);
+  });
+}
+
+// Export history
+function exportHistory() {
+  if (filteredHistory.length === 0) return;
+  
+  let exportContent = '';
+  filteredHistory.forEach(item => {
+    const archivedDate = new Date(item.archivedAt).toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    exportContent += `时间：${archivedDate} - 任务：${item.text}\n`;
+  });
+  
+  // Create download link
+  const blob = new Blob([exportContent], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `todo-history-${new Date().toISOString().split('T')[0]}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Pagination functions
+function goToPrevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    renderHistory();
+  }
+}
+
+function goToNextPage() {
+  const totalPages = Math.ceil(filteredHistory.length / pageSize);
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderHistory();
+  }
+}
+
+// Event listeners for history panel
+historyBtn.addEventListener('click', openHistoryPanel);
+closeHistoryBtn.addEventListener('click', closeHistoryPanel);
+searchBtn.addEventListener('click', searchHistory);
+prevBtn.addEventListener('click', goToPrevPage);
+nextBtn.addEventListener('click', goToNextPage);
+exportBtn.addEventListener('click', exportHistory);
 
 // Load data and render on startup
 loadData();
