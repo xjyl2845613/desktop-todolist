@@ -20,4 +20,4 @@ lerna-debug.log*
 !.yarn/versions
 .idea/
 dist/
-releases/
+release/
