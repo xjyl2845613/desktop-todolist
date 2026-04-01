@@ -1,5 +1,5 @@
 # 一键打包脚本
-Write-Host "开始打包 FloatingTodo 项目..."
+Write-Host "开始打包 Desktop Todo List 项目..."
 
 # 检查是否安装了npm
 if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
@@ -26,7 +26,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # 查找生成的可执行文件
-$portableExe = "dist\FloatingTodo-portable.exe"
+$portableExe = "dist\DesktopTodoList.exe"
 
 if (-not (Test-Path $portableExe)) {
     Write-Host "错误: 未找到生成的可执行文件" -ForegroundColor Red
@@ -40,7 +40,7 @@ if (-not (Test-Path $outputDir)) {
 }
 
 # 创建zip压缩包
-$zipFile = "$outputDir\FloatingTodo-$(Get-Date -Format 'yyyyMMdd').zip"
+$zipFile = "$outputDir\DesktopTodoList-$(Get-Date -Format 'yyyyMMdd').zip"
 Write-Host "创建压缩包: $zipFile" -ForegroundColor Green
 
 # 复制可执行文件到临时目录
@@ -53,7 +53,7 @@ Copy-Item $portableExe $tempDir | Out-Null
 
 # 创建README文件
 $readmeContent = @"
-# FloatingTodo - 桌面待办清单
+# Desktop Todo List - 桌面待办清单
 
 ## 功能特点
 - 桌面悬浮待办清单
@@ -63,7 +63,7 @@ $readmeContent = @"
 
 ## 使用方法
 1. 解压本压缩包
-2. 双击 FloatingTodo-portable.exe 运行
+2. 双击 DesktopTodoList.exe 运行
 3. 点击右下角的悬浮图标打开待办清单
 
 ## 注意事项

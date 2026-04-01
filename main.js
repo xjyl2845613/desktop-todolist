@@ -61,7 +61,7 @@ function createTray() {
   }
 
   tray = new Tray(icon);
-  tray.setToolTip('FloatingTodo');
+  tray.setToolTip('Desktop Todo List');
 
   function buildMenu(autoLaunchOn) {
     return Menu.buildFromTemplate([
@@ -181,7 +181,7 @@ ipcMain.handle('load-data', async () => {
 app.whenReady().then(() => {
   // Initialize autoLauncher after app is ready
   autoLauncher = new AutoLaunch({
-    name: 'FloatingTodo',
+    name: 'DesktopTodoList',
     path: app.getPath('exe'),
   });
   

@@ -1,7 +1,7 @@
 {
   "name": "desktop-todolist",
   "version": "1.0.0",
-  "description": "Floating desktop todo list",
+  "description": "desktop desktop todo list",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -15,8 +15,8 @@
     "electron-builder": "^24.9.1"
   },
   "build": {
-    "appId": "com.floatingtodo.app",
-    "productName": "FloatingTodo",
+    "appId": "com.desktoptodolist.app",
+    "productName": "DesktopTodoList",
     "asar": true,
     "directories": { "output": "dist" },
     "files": [
@@ -33,7 +33,7 @@
       "signAndEditExecutable": false
     },
     "portable": {
-      "artifactName": "FloatingTodo-portable.exe"
+      "artifactName": "DesktopTodoList.exe"
     },
     "electronDownload": {
       "mirror": "https://npmmirror.com/mirrors/electron/"
